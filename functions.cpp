@@ -1,13 +1,15 @@
 #include <math.h>
-#include "functions.h"
 #include <stdio.h>
 #include <assert.h>
+#include "functions.h"
 
 double discriminant(double a, double b, double c) {
     return b * b - 4 * a * c;
 }
 
 void input (double* a, double* b, double* c) {
+    assert(a != NULL && b != NULL && c != NULL);
+
     printf("Enter coefficients a, b, c: "); 
     int n = scanf("%lf %lf %lf", a, b, c); 
 
@@ -29,7 +31,9 @@ bool compare_two_numbers(double a, double b) {
     }
 }
 
-void linear_solution(double b, double c, double* result1, double* result2, int* amount) {  
+void linear_solution(double b, double c, double* result1, double* result2, int* amount) { 
+    assert(result1 != NULL && result2 != NULL && amount != NULL);
+
     *result1 = -c / b;
     *result2 = *result1; 
 
@@ -37,6 +41,8 @@ void linear_solution(double b, double c, double* result1, double* result2, int* 
 }
 
 void quadratic_solution(double a, double b, double c, double* result1, double* result2, int* amount) {
+    assert(result1 != NULL && result2 != NULL && amount != NULL);
+
     double d = discriminant(a, b, c);
     double doubleA = 2 * a;
 
@@ -61,13 +67,25 @@ void quadratic_solution(double a, double b, double c, double* result1, double* r
 
 void output(double result1, double result2, int amount) { 
     switch (amount) {
-        case NOSOLUTIONS: printf("No solutions\n"); break;
+    case NOSOLUTIONS: 
+        printf("No solutions\n"); 
+        break;
 
-        case ONESOLUTION: printf("X = %lf\n", result1); break;
+    case ONESOLUTION: 
+        printf("X = %lf\n", result1); 
+        break;
 
-        case TWOSOLUTIONS: printf("X1 = %lf\n", result1); printf("X2 = %lf\n", result2); break;
+    case TWOSOLUTIONS: 
+        printf("X1 = %lf\n", result1); 
+        printf("X2 = %lf\n", result2); break;
                                             
-        default: printf("Infinity solutions\n"); break;
+    case INFINITYSOLUTIONS: 
+        printf("Infinity solutions\n"); 
+        break;
+
+    default:
+        printf("Wrong amount of solutions\n");
+        break;
     }
 }
 
@@ -77,26 +95,21 @@ void clean_stdinput() {
         s = getchar();
     }
 
-    return;
 }
 
 void solve(double a, double b, double c, double* result1, double* result2, int* amount) { 
-    if (result1 ==  NULL || result2 == NULL || amount == NULL) {
-        assert(0);
+    assert(result1 != NULL && result2 != NULL && amount != NULL);
+        
+    if (compare_two_numbers(a, 0.0) && !compare_two_numbers(b, 0.0)) {
+        linear_solution(b, c, result1, result2, amount);
+
+    }   else if (compare_two_numbers(a, 0.0) && compare_two_numbers(b, 0.0) && compare_two_numbers(c, 0.0)) {
+        *amount = INFINITYSOLUTIONS;
+
+    }   else if (compare_two_numbers(b, 0.0) && compare_two_numbers(a, 0.0)) {
+        *amount = NOSOLUTIONS;
 
     }   else {
-
-        if (compare_two_numbers(a, 0.0) && !compare_two_numbers(b, 0.0)) {
-            linear_solution(b, c, result1, result2, amount);
-
-        }   else if (compare_two_numbers(a, 0.0) && compare_two_numbers(b, 0.0) && compare_two_numbers(c, 0.0)) {
-            *amount = INFINITYSOLUTIONS;
-
-        }   else if (compare_two_numbers(b, 0.0) && compare_two_numbers(a, 0.0)) {
-            *amount = NOSOLUTIONS;
-
-        }   else {
-            quadratic_solution(a, b, c, result1, result2, amount);
-        }
-    }
+        quadratic_solution(a, b, c, result1, result2, amount);
+    }  
 }

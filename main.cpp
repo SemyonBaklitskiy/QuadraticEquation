@@ -1,6 +1,6 @@
-#include "functions.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "functions.h"
 
 #ifdef TEST
     #include "test.h"
@@ -17,8 +17,9 @@ int main() {
 
     }   else {
         test(name);
-        free (name);
     }
+
+    free(name);
 
 #else
     double a = 0.0, b = 0.0, c = 0.0;  
