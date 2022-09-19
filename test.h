@@ -7,7 +7,8 @@
 
 	\code 
 	void clean_spaces_in_file (FILE* file, int* check) {
-        assert(file != NULL && check != NULL);
+        assert(file != NULL);
+        assert(check != NULL);
 
         do {
             *check = getc(file);
@@ -28,7 +29,14 @@ void clean_spaces_in_file (FILE* file, int* check);
 
 	\code 
 	void read_file(FILE* file, double* abc, double* expectedResults, int* expectedAmount, int* check) {
-        assert(file != NULL && abc != NULL && expectedResults != NULL && expectedAmount != NULL && check != NULL);
+        assert(file != NULL);
+        assert(abc != NULL);
+        assert(expectedResults != NULL);
+        assert(expectedAmount != NULL);
+        assert(check != NULL);
+        assert(abc != expectedResults);
+        assert(expectedAmount != check);
+
         fscanf(file, "%lf %lf %lf", abc, abc + 1, abc + 2); 
 
         char s = ' '; 

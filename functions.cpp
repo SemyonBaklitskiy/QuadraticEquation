@@ -8,7 +8,12 @@ double discriminant(double a, double b, double c) {
 }
 
 void input (double* a, double* b, double* c) {
-    assert(a != NULL && b != NULL && c != NULL);
+    assert(a != NULL);
+    assert(b != NULL);
+    assert(c != NULL);
+    assert(a != b);
+    assert(a != c);
+    assert(b != c);
 
     printf("Enter coefficients a, b, c: "); 
     int n = scanf("%lf %lf %lf", a, b, c); 
@@ -32,7 +37,10 @@ bool compare_two_numbers(double a, double b) {
 }
 
 void linear_solution(double b, double c, double* result1, double* result2, int* amount) { 
-    assert(result1 != NULL && result2 != NULL && amount != NULL);
+    assert(result1 != NULL);
+    assert(result2 != NULL);
+    assert(amount != NULL);
+    assert(result1 != result2);
 
     *result1 = -c / b;
     *result2 = *result1; 
@@ -41,7 +49,10 @@ void linear_solution(double b, double c, double* result1, double* result2, int* 
 }
 
 void quadratic_solution(double a, double b, double c, double* result1, double* result2, int* amount) {
-    assert(result1 != NULL && result2 != NULL && amount != NULL);
+    assert(result1 != NULL);
+    assert(result2 != NULL);
+    assert(amount != NULL);
+    assert(result1 != result2);
 
     double d = discriminant(a, b, c);
     double doubleA = 2 * a;
@@ -98,7 +109,10 @@ void clean_stdinput() {
 }
 
 void solve(double a, double b, double c, double* result1, double* result2, int* amount) { 
-    assert(result1 != NULL && result2 != NULL && amount != NULL);
+    assert(result1 != NULL);
+    assert(result2 != NULL);
+    assert(amount != NULL);
+    assert(result1 != result2);
         
     if (compare_two_numbers(a, 0.0) && !compare_two_numbers(b, 0.0)) {
         linear_solution(b, c, result1, result2, amount);
